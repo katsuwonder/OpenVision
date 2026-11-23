@@ -26,6 +26,9 @@ workflows:
           APP_LINK_URL_SCHEME = openvision
           EOF
           echo "Config.xcconfig generated"
+      - name: Create Config.swift from example
+        script: |
+          cp OpenVision/Config/Config.swift.example OpenVision/Config/Config.swift
       - name: Install XcodeGen
         script: |
           brew install xcodegen
