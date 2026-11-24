@@ -190,7 +190,7 @@ final class GeminiLiveService: ObservableObject {
                         "startOfSpeechSensitivity": "START_SENSITIVITY_HIGH",
                         "endOfSpeechSensitivity": "END_SENSITIVITY_LOW",
                         "prefixPaddingMs": 40,
-                        "silenceDurationMs": 500
+                        "silenceDurationMs": 1500
                     ],
                     "activityHandling": "START_OF_ACTIVITY_INTERRUPTS",
                     "turnCoverage": "TURN_INCLUDES_ALL_INPUT"
