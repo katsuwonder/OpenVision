@@ -51,7 +51,7 @@ final class TTSService: NSObject, ObservableObject {
         }
 
         // Fall back to default English voice
-        return AVSpeechSynthesisVoice(language: "en-US")
+        return AVSpeechSynthesisVoice(language: "ja-JP")
     }
 
     /// Get all available voices for a language
