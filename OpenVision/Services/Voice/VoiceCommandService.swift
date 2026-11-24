@@ -558,8 +558,8 @@ final class VoiceCommandService: ObservableObject {
         case .listening, .conversationMode:
             // Strip wake word from transcription (like xmeta does)
             var command = transcription
-            for ww in [wakeWord.lowercased(), "ok vision", "okay vision", "hey vision", "hi vision"] {
-                if let range = command.lowercased().range(of: ww) {
+            for ww in [wakeWord, "ok vision", "okay vision", "hey vision", "hi vision"] {
+                if let range = command.range(of: ww, options: .caseInsensitive) {
                     command = String(command[range.upperBound...]).trimmingCharacters(in: .whitespaces)
                     break
                 }
@@ -727,7 +727,7 @@ final class VoiceCommandService: ObservableObject {
         ]
 
         for variation in variations {
-            if let range = lowercased.range(of: variation) {
+            if let range = text.range(of: variation, options: .caseInsensitive) {
                 let afterWakeWord = String(text[range.upperBound...])
                     .trimmingCharacters(in: .whitespaces)
                 return afterWakeWord
