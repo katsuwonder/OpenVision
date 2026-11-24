@@ -84,7 +84,7 @@ final class VoiceCommandService: ObservableObject {
 
     // MARK: - Speech Recognition
 
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
 
