@@ -26,6 +26,9 @@ final class GlassesManager: ObservableObject {
     /// Number of connected devices
     @Published var connectedDeviceCount: Int = 0
 
+    /// v6 diagnostic: per-device name / link state / compatibility, shown in Settings
+    @Published var activeDeviceInfo: String = ""
+
     /// Whether camera streaming is active
     @Published var isStreaming: Bool = false
 
@@ -315,10 +318,32 @@ final class GlassesManager: ObservableObject {
     private func setupDevicesListener() {
         devicesTask = Task {
             for await devices in wearables.devicesStream() {
+                // v6: don't blindly take devices.first. With two glasses
+                // registered, the first entry can be the pair that is not
+                // connected (e.g. Adventurer in its case), and every camera
+                // session then dies with "No eligible device available".
+                // Prefer the first device whose DAT link is actually up;
+                // fall back to the first entry if none report .connected.
+                var chosen: DeviceIdentifier? = nil
+                var infoLines: [String] = []
+                for id in devices {
+                    if let d = wearables.deviceForIdentifier(id) {
+                        infoLines.append("\(d.nameOrId()): link=\(d.linkState) compat=\(d.compatibility())")
+                        if chosen == nil, d.linkState == .connected {
+                            chosen = id
+                        }
+                    } else {
+                        infoLines.append("\(id): unresolved")
+                    }
+                }
+                let selected = chosen ?? devices.first
+                let info = infoLines.joined(separator: "\n")
                 await MainActor.run {
                     self.connectedDeviceCount = devices.count
-                    self.connectedDevice = devices.first
-                    print("[GlassesManager] Devices updated: \(devices.count) connected")
+                    self.connectedDevice = selected
+                    self.activeDeviceInfo = info
+                    print("[GlassesManager] Devices updated: \(devices.count) listed, selected: \(selected != nil ? String(describing: selected!) : "nil")")
+                    print("[GlassesManager] Device states:\n\(info)")
                 }
             }
         }
