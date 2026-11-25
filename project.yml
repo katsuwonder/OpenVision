@@ -114,7 +114,7 @@ packages:
     # camera-consolidation API: DeviceSession.addCamera(config:) -> Camera -> camera.stream
     # (StreamSession/addStream are gone). Requires iOS 17.2+.
     # MUST be regression-tested on Gen 1/2 glasses (register + stream + HFP mic) before merge.
-    exactVersion: "0.9.0"
+    exactVersion: "1.1.0"
   # PrismML fork of mlx-swift, adding 1-bit quantized Metal kernels (upstream PR pending).
   # Needed to load Bonsai-8B (Qwen3-8B at 1-bit g128, 1.28 GB vs E2B's 3.6 GB). Declared at the
   # ROOT so every consumer (mlx-swift-lm + the three vendored packages) resolves the same identity.
