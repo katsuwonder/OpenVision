@@ -95,6 +95,17 @@ struct GlassesSettingsView: View {
                         }
                     }
 
+                    if !glassesManager.activeDeviceInfo.isEmpty {
+                        HStack {
+                            Text("Device States")
+                            Spacer()
+                            Text(glassesManager.activeDeviceInfo)
+                                .foregroundColor(.secondary)
+                                .font(.caption)
+                                .multilineTextAlignment(.trailing)
+                        }
+                    }
+
                     HStack {
                         Text("Streaming")
                         Spacer()
